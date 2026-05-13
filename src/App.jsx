@@ -1,9 +1,16 @@
+import { Route, Routes } from "react-router-dom";
+import GameScreen from "./screens/GameScreen";
+import ResultsScreen from "./screens/ResultsScreen";
+import StartScreen from "./screens/StartScreen";
+
 function App() {
   return (
     <>
-      <section id="center">
-        <p className="text-lime-600">Setup</p>
-      </section>
+      <Routes>
+        <Route path="/" element={<StartScreen />} />
+        <Route path="/game" element={<GameScreen />} />
+        <Route path="/results" element={<ResultsScreen />} />
+      </Routes>
     </>
   );
 }
