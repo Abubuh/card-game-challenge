@@ -1,8 +1,15 @@
-import React from 'react'
+import { useState } from 'react'
+import Card from '../components/Card'
+import moon from "../assets/images/moon.svg"
+
 
 const GameScreen = () => {
+  const [isFlipped, setIsFlipped] = useState(false)
+
   return (
-    <div>GameScreen</div>
+    <div>
+      <Card image={moon} isFlipped={isFlipped} onClick={() => setIsFlipped(!isFlipped)} />
+    </div>
   )
 }
 
