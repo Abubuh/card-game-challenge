@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const Button = ({ loaded, children, route }) => {
+const Button = ({ loaded = true, children, route }) => {
   const navigate = useNavigate();
 
   return (
