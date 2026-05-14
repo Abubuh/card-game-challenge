@@ -5,7 +5,7 @@ const ResultsScreen = () => {
   const { state } = useLocation();
 
   return (
-    <div className="h-screen w-screen flex flex-col gap-4 items-center justify-center">
+    <div className="h-dvh w-dvw flex flex-col gap-4 items-center text-center justify-center">
       <p className="text-4xl font-bold">
         {state?.win ? "you did it" : "oops you didn't find them all"}
       </p>

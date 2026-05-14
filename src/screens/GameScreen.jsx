@@ -25,7 +25,7 @@ const GameScreen = () => {
   });
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center gap-8">
+    <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-8">
       <button onClick={toggleMute} className="absolute top-4 right-4 text-2xl">
         {isMuted ? "🔇" : "🔊"}
       </button>
@@ -39,7 +39,7 @@ const GameScreen = () => {
         />
       )}
       <p className="text-4xl font-bold">{timer}</p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
         {cards.map((card) => (
           <Card
             key={card.id}

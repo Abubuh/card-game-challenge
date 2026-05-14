@@ -5,7 +5,7 @@ import StartScreen from "./screens/StartScreen";
 
 function App() {
   return (
-    <div className="bg-linear-to-br from-blue-100 to-purple-200 min-h-screen">
+    <div className="bg-linear-to-br from-blue-100 to-purple-200 h-dvh w-dvw">
       <Routes>
         <Route path="/" element={<StartScreen />} />
         <Route path="/game" element={<GameScreen />} />
