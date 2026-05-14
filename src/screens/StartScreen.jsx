@@ -9,10 +9,10 @@ const StartScreen = () => {
   }, []);
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden flex flex-col justify-center items-center gap-8 ">
+    <div className="relative overflow-hidden h-dvh w-dvw flex flex-col justify-center items-center gap-8 ">
       <img
         src={logo}
-        className={`w-40 md:w-64 transition-all duration-1400 ease-out ${
+        className={`w-46 md:w-46 lg:w-64 transition-all duration-1400 ease-out ${
           loaded ? "translate-y-0 opacity-100" : "-translate-y-150 opacity-0"
         }`}
         alt="logo"
