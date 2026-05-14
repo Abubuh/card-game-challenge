@@ -33,7 +33,7 @@ const useMemoryGame = ({ onMatch, onNoMatch }) => {
         }
         setFlipped(new Set());
         setDisabled(false);
-      }, 500);
+      }, 600);
     }
   };
 
