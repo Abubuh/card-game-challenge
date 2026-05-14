@@ -27,6 +27,12 @@ const useGameSounds = ({ timer }) => {
     return () => {
       backgroundRef.current.pause();
       backgroundRef.current.currentTime = 0;
+      correctRef.current.pause();
+      correctRef.current.currentTime = 0;
+      incorrectRef.current.pause();
+      incorrectRef.current.currentTime = 0;
+      tickingRef.current.pause();
+      tickingRef.current.currentTime = 0;
     };
   }, []);
 
