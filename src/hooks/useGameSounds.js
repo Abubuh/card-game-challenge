@@ -10,6 +10,7 @@ const useGameSounds = ({ timer }) => {
   const correctRef = useRef(new Audio(correctSound));
   const incorrectRef = useRef(new Audio(incorrectSound));
   const tickingRef = useRef(new Audio(tickingSound));
+  const [volume, setVolume] = useState(0.5);
 
   useEffect(() => {
     if (timer === 10) {
@@ -46,6 +47,12 @@ const useGameSounds = ({ timer }) => {
     setIsMuted((prev) => !prev);
   };
 
+  const handleVolume = (e) => {
+    const newVolume = e.target.value;
+    setVolume(newVolume);
+    backgroundRef.current.volume = newVolume;
+  };
+
   const playCorrect = () => {
     correctRef.current.currentTime = 0;
     correctRef.current.play();
@@ -56,7 +63,14 @@ const useGameSounds = ({ timer }) => {
     incorrectRef.current.play();
   };
 
-  return { playCorrect, playIncorrect, isMuted, toggleMute };
+  return {
+    playCorrect,
+    playIncorrect,
+    isMuted,
+    toggleMute,
+    volume,
+    handleVolume,
+  };
 };
 
 export default useGameSounds;

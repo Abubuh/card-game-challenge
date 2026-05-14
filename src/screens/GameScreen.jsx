@@ -21,15 +21,35 @@ const GameScreen = () => {
     },
   });
   const { timer } = useGameTimer({ matched, cards });
-  const { playCorrect, playIncorrect, isMuted, toggleMute } = useGameSounds({
+  const {
+    playCorrect,
+    playIncorrect,
+    isMuted,
+    toggleMute,
+    volume,
+    handleVolume,
+  } = useGameSounds({
     timer,
   });
 
   return (
     <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
-      <button onClick={toggleMute} className="absolute top-4 right-4 text-2xl">
-        {isMuted ? "🔇" : "🔊"}
-      </button>
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <button onClick={toggleMute} className="text-2xl">
+          {isMuted ? "🔇" : "🔊"}
+        </button>
+        {!isMuted && (
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolume}
+            className="w-20 accent-blue-500"
+          />
+        )}
+      </div>
       {modal && (
         <Modal
           message={
@@ -39,7 +59,7 @@ const GameScreen = () => {
           }
         />
       )}
-      <CircularTimer timer={timer}/>
+      <CircularTimer timer={timer} />
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
         {cards.map((card) => (
           <Card
