@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Card from "../components/Card";
 import { CARDS } from "../constants/cards";
 import Modal from "../components/Modal";
+import { useNavigate } from "react-router-dom";
 const shuffle = (array) => [...array].sort(() => Math.random() - 0.5);
 
 const GameScreen = () => {
@@ -10,6 +11,31 @@ const GameScreen = () => {
   const [matched, setMatched] = useState(new Set());
   const [disabled, setDisabled] = useState(false);
   const [modal, setModal] = useState(null);
+  const [timer, setTimer] = useState(30);
+  const navigate = useNavigate();
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (timer === 0) {
+      navigate("/results", { state: { win: false } });
+      return;
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setTimer((t) => t - 1);
+    }, 1000);
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (matched.size === cards.length) {
+      clearInterval(timerRef.current);
+      navigate("/results", { state: { win: true, time: timer } });
+    }
+  }, [matched]);
+
   const handleClick = (card) => {
     if (disabled) return;
     if (matched.has(card.id)) return;
@@ -29,7 +55,6 @@ const GameScreen = () => {
         if (firstCard.type === secondCard.type) {
           setMatched((prev) => new Set([...prev, firstId, secondId]));
           setModal("match");
-          
         } else {
           setModal("nomatch");
         }
@@ -41,7 +66,7 @@ const GameScreen = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center">
+    <div className="h-screen w-screen flex flex-col items-center justify-center gap-8">
       {modal && (
         <Modal
           message={
@@ -51,6 +76,7 @@ const GameScreen = () => {
           }
         />
       )}
+      <p className="text-4xl font-bold">{timer}</p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {cards.map((card) => (
           <Card
