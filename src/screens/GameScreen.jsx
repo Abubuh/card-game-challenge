@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import useMemoryGame from "../hooks/useMemoryGame";
 import useGameTimer from "../hooks/useGameTimer";
 import useGameSounds from "../hooks/useGameSounds";
+import { CircularTimer } from "../components/CircularTimer";
 
 const GameScreen = () => {
   const [modal, setModal] = useState(null);
@@ -25,7 +26,7 @@ const GameScreen = () => {
   });
 
   return (
-    <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-8">
+    <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
       <button onClick={toggleMute} className="absolute top-4 right-4 text-2xl">
         {isMuted ? "🔇" : "🔊"}
       </button>
@@ -38,7 +39,7 @@ const GameScreen = () => {
           }
         />
       )}
-      <p className="text-4xl font-bold">{timer}</p>
+      <CircularTimer timer={timer}/>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
         {cards.map((card) => (
           <Card
