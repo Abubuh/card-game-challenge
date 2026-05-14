@@ -20,7 +20,6 @@ const useGameSounds = ({ timer }) => {
   useEffect(() => {
     correctRef.current.load();
     incorrectRef.current.load();
-    incorrectRef.current.load();
     tickingRef.current.load();
   }, []);
 
