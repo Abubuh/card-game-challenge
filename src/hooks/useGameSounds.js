@@ -4,19 +4,13 @@ import correctSound from "../assets/sounds/correct.mp3";
 import incorrectSound from "../assets/sounds/incorrect.mp3";
 import tickingSound from "../assets/sounds/ticking.mp3";
 
-const useGameSounds = ({ timer }) => {
+const useGameSounds = () => {
   const [isMuted, setIsMuted] = useState(true);
   const backgroundRef = useRef(new Audio(backgroundSound));
   const correctRef = useRef(new Audio(correctSound));
   const incorrectRef = useRef(new Audio(incorrectSound));
   const tickingRef = useRef(new Audio(tickingSound));
   const [volume, setVolume] = useState(0.5);
-
-  useEffect(() => {
-    if (timer === 10) {
-      tickingRef.current.play().catch(() => {});
-    }
-  }, [timer]);
 
   useEffect(() => {
     correctRef.current.load();
@@ -37,6 +31,11 @@ const useGameSounds = ({ timer }) => {
     };
   }, []);
 
+  const playTicking = () => {
+    tickingRef.current.currentTime = 0;
+    tickingRef.current.play().catch(() => {});
+  };
+
   const toggleMute = () => {
     if (isMuted) {
       backgroundRef.current.loop = true;
@@ -55,12 +54,12 @@ const useGameSounds = ({ timer }) => {
 
   const playCorrect = () => {
     correctRef.current.currentTime = 0;
-    correctRef.current.play();
+    correctRef.current.play().catch(() => {});
   };
 
   const playIncorrect = () => {
     incorrectRef.current.currentTime = 0;
-    incorrectRef.current.play();
+    incorrectRef.current.play().catch(() => {});
   };
 
   return {
@@ -70,6 +69,7 @@ const useGameSounds = ({ timer }) => {
     toggleMute,
     volume,
     handleVolume,
+    playTicking,
   };
 };
 

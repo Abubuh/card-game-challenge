@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
 import useMemoryGame from "../hooks/useMemoryGame";
@@ -8,6 +8,16 @@ import { CircularTimer } from "../components/CircularTimer";
 
 const GameScreen = () => {
   const [modal, setModal] = useState(null);
+  const {
+    playCorrect,
+    playIncorrect,
+    isMuted,
+    toggleMute,
+    volume,
+    handleVolume,
+    playTicking,
+  } = useGameSounds();
+
   const { cards, flipped, matched, handleClick } = useMemoryGame({
     onMatch: () => {
       playCorrect();
@@ -21,16 +31,13 @@ const GameScreen = () => {
     },
   });
   const { timer } = useGameTimer({ matched, cards });
-  const {
-    playCorrect,
-    playIncorrect,
-    isMuted,
-    toggleMute,
-    volume,
-    handleVolume,
-  } = useGameSounds({
-    timer,
-  });
+
+  useEffect(() => {
+  if (timer === 10) {
+    playTicking();
+  }
+}, [timer]);
+
 
   return (
     <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
