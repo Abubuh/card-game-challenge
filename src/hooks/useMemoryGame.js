@@ -7,7 +7,6 @@ const shuffle = (array) => {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
   }
-  console.log(result);
   return result;
 };
 
