@@ -7,6 +7,7 @@ import useGameSounds from "../hooks/useGameSounds";
 import { CircularTimer } from "../components/CircularTimer";
 import soundOn from "../assets/images/sound--on.svg";
 import soundOff from "../assets/images/sound--off.svg";
+import { MODAL_DURATION } from "../constants/gameConstants";
 
 const GameScreen = () => {
   const [modal, setModal] = useState(null);
@@ -24,14 +25,16 @@ const GameScreen = () => {
     onMatch: () => {
       playCorrect();
       setModal("match");
-      setTimeout(() => setModal(null), 1200);
+      setTimeout(() => setModal(null), MODAL_DURATION);
     },
     onNoMatch: () => {
       playIncorrect();
       setModal("nomatch");
-      setTimeout(() => setModal(null), 1200);
+      setTimeout(() => setModal(null), MODAL_DURATION);
     },
   });
+
+
   const { timer } = useGameTimer({ matched, cards });
 
   useEffect(() => {
@@ -43,11 +46,19 @@ const GameScreen = () => {
   return (
     <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
       <div className="absolute top-4 right-4 flex items-center gap-2">
-        <button onClick={toggleMute} className="text-2xl">
+        <button onClick={toggleMute} className="text-2xl" aria-pressed={isMuted}>
           {isMuted ? (
-            <img src={soundOff} alt="Mute" className="w-6 h-6" />
+            <img
+              src={soundOff}
+              alt="Mute background music"
+              className="w-6 h-6"
+            />
           ) : (
-            <img src={soundOn} alt="Unmute" className="w-6 h-6" />
+            <img
+              src={soundOn}
+              alt="Unmute background music"
+              className="w-6 h-6"
+            />
           )}
         </button>
         {!isMuted && (
@@ -59,6 +70,7 @@ const GameScreen = () => {
             value={volume}
             onChange={handleVolume}
             className="w-20 accent-blue-500"
+            aria-label="Background music volume control"
           />
         )}
       </div>
@@ -76,6 +88,7 @@ const GameScreen = () => {
         {cards.map((card) => (
           <Card
             key={card.id}
+            type={card.type}
             image={card.image}
             isFlipped={flipped.has(card.id) || matched.has(card.id)}
             onClick={() => handleClick(card)}
