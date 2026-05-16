@@ -15,7 +15,7 @@ const StartScreen = () => {
         className={`w-46 md:w-46 lg:w-64 transition-all duration-1400 ease-out ${
           loaded ? "translate-y-0 opacity-100" : "-translate-y-150 opacity-0"
         }`}
-        alt="logo"
+        alt="Memory Game Logo"
       />
       <Button loaded={loaded} route="/game">
         Start!
