@@ -1,0 +1,5 @@
+export const GAME_DURATION = 30;
+export const CLEANUP_DELAY = 1200;
+export const MATCH_FEEDBACK_DELAY = 300;
+export const MODAL_DURATION = CLEANUP_DELAY - MATCH_FEEDBACK_DELAY;
+export const TICKING_THRESHOLD = 10;
