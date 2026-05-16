@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { CARDS } from "../constants/cards";
+import {
+  CLEANUP_DELAY,
+  MATCH_FEEDBACK_DELAY,
+} from "../constants/gameConstants";
 
 const shuffle = (array) => {
   const result = [...array];
@@ -38,9 +42,12 @@ const useMemoryGame = ({ onMatch, onNoMatch }) => {
         } else {
           onNoMatch?.();
         }
+      }, MATCH_FEEDBACK_DELAY);
+
+      setTimeout(() => {
         setFlipped(new Set());
         setDisabled(false);
-      }, 600);
+      }, CLEANUP_DELAY);
     }
   };
 

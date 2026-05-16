@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GAME_DURATION } from "../constants/gameConstants";
 
 const useGameTimer = ({ matched, cards }) => {
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(GAME_DURATION);
   const timerRef = useRef(null);
   const navigate = useNavigate();
 
