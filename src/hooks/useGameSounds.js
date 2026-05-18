@@ -39,7 +39,7 @@ const useGameSounds = () => {
   const toggleMute = () => {
     if (isMuted) {
       backgroundRef.current.loop = true;
-      backgroundRef.current.play();
+      backgroundRef.current.play().catch(() => {});
     } else {
       backgroundRef.current.pause();
     }
