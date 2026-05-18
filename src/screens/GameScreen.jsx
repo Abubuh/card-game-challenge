@@ -34,7 +34,6 @@ const GameScreen = () => {
     },
   });
 
-
   const { timer } = useGameTimer({ matched, cards });
 
   useEffect(() => {
@@ -46,7 +45,11 @@ const GameScreen = () => {
   return (
     <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
       <div className="absolute top-4 right-4 flex items-center gap-2">
-        <button onClick={toggleMute} className="text-2xl" aria-pressed={isMuted}>
+        <button
+          onClick={toggleMute}
+          className="text-2xl"
+          aria-pressed={isMuted}
+        >
           {isMuted ? (
             <img
               src={soundOff}
@@ -69,7 +72,7 @@ const GameScreen = () => {
             step="0.01"
             value={volume}
             onChange={handleVolume}
-            className="w-20 accent-blue-500"
+            className="w-20 accent-blue-500 hidden lg:block"
             aria-label="Background music volume control"
           />
         )}
@@ -84,17 +87,19 @@ const GameScreen = () => {
         />
       )}
       <CircularTimer timer={timer} />
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-        {cards.map((card) => (
-          <Card
-            key={card.id}
-            type={card.type}
-            image={card.image}
-            isFlipped={flipped.has(card.id) || matched.has(card.id)}
-            onClick={() => handleClick(card)}
-          />
-        ))}
-      </div>
+      <section aria-label="memory cards">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          {cards.map((card) => (
+            <Card
+              key={card.id}
+              type={card.type}
+              image={card.image}
+              isFlipped={flipped.has(card.id) || matched.has(card.id)}
+              onClick={() => handleClick(card)}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
