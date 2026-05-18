@@ -51,7 +51,7 @@ const useMemoryGame = ({ onMatch, onNoMatch }) => {
     }
   };
 
-  return { cards, flipped, matched, handleClick };
+  return { cards, flipped, matched, handleClick, disabled };
 };
 
 export default useMemoryGame;

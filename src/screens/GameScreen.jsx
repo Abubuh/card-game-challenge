@@ -21,7 +21,7 @@ const GameScreen = () => {
     playTicking,
   } = useGameSounds();
 
-  const { cards, flipped, matched, handleClick } = useMemoryGame({
+  const { cards, flipped, matched, handleClick, disabled } = useMemoryGame({
     onMatch: () => {
       playCorrect();
       setModal("match");
@@ -53,13 +53,13 @@ const GameScreen = () => {
           {isMuted ? (
             <img
               src={soundOff}
-              alt="Mute background music"
+              alt="Unmute background music"
               className="w-6 h-6"
             />
           ) : (
             <img
               src={soundOn}
-              alt="Unmute background music"
+              alt="Mute background music"
               className="w-6 h-6"
             />
           )}
@@ -92,6 +92,7 @@ const GameScreen = () => {
           {cards.map((card) => (
             <Card
               key={card.id}
+              isDisabled={disabled && !flipped.has(card.id) && !matched.has(card.id)}
               type={card.type}
               image={card.image}
               isFlipped={flipped.has(card.id) || matched.has(card.id)}

@@ -1,10 +1,11 @@
-const Card = ({ image, isFlipped, onClick, type }) => {
+const Card = ({ image, isFlipped, onClick, type, isDisabled }) => {
   return (
     <div
       onClick={onClick}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
       className={`w-24 h-32 md:w-20 md:h-24 lg:w-42 lg:h-54 perspective-[1000px] ${isFlipped ? "cursor-default":" cursor-pointer"}`}
       role="button"
+      aria-disabled={isDisabled}
       tabIndex={0}
       aria-label={isFlipped ? `${type} card` : 'Face down card'}
     >
