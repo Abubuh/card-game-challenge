@@ -37,3 +37,17 @@ test("Keyboard Space flips a card", async ({ page }) => {
   await page.keyboard.press("Space");
   await expect(cards.first()).not.toHaveAttribute("aria-label", initialLabel);
 });
+
+test("Cannot flip third card while two are being evaluated", async ({
+  page,
+}) => {
+  await page.goto("/game");
+  const cards = page
+    .getByRole("region", { name: /memory cards/i })
+    .locator('[role="button"]');
+  const thirdLabel = await cards.nth(2).getAttribute("aria-label");
+  await cards.nth(0).click();
+  await cards.nth(1).click();
+  await cards.nth(2).click();
+  await expect(cards.nth(2)).toHaveAttribute("aria-label", thirdLabel);
+});
