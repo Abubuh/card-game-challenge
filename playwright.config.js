@@ -24,7 +24,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run dev:test",
+    command: "npx vite --mode test",
     url: "http://localhost:5173",
     reuseExistingServer: false,
   },

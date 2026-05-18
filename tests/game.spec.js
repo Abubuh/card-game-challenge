@@ -52,8 +52,42 @@ test("Cannot flip third card while two are being evaluated", async ({
     .getByRole("region", { name: /memory cards/i })
     .getByRole("button");
   await cards.nth(0).click();
-  await cards.nth(7).click();
+  await cards.nth(1).click();
   await expect(cards.nth(2)).toHaveAttribute("aria-disabled", "true", {
     timeout: 4000,
   });
+});
+
+test("Matching cards stay flipped", async ({ page }) => {
+  await page.goto("/game");
+
+  const cards = page
+    .getByRole("region", { name: /memory cards/i })
+    .getByRole("button");
+  await cards.nth(0).click();
+  await cards.nth(4).click();
+
+  await page.waitForTimeout(1200);
+
+  await expect(cards.nth(0)).not.toHaveAttribute(
+    "aria-label",
+    "Face down card",
+  );
+
+  await expect(cards.nth(4)).not.toHaveAttribute(
+    "aria-label",
+    "Face down card",
+  );
+});
+
+test("Non-matching cards flip back", async ({ page }) => {
+  await page.goto("/game");
+  const cards = page
+    .getByRole("region", { name: /memory cards/i })
+    .getByRole("button");
+  await cards.nth(0).click();
+  await cards.nth(1).click();
+  await page.waitForTimeout(1300);
+  await expect(cards.nth(0)).toHaveAttribute("aria-label", "Face down card");
+  await expect(cards.nth(1)).toHaveAttribute("aria-label", "Face down card");
 });
