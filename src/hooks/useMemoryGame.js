@@ -14,8 +14,8 @@ const shuffle = (array) => {
   return result;
 };
 
-const useMemoryGame = ({ onMatch, onNoMatch }) => {
-  const [cards] = useState(() => shuffle(CARDS));
+const useMemoryGame = ({ onMatch, onNoMatch, initialCards }) => {
+  const [cards] = useState(() => initialCards ?? shuffle(CARDS));
   const [flipped, setFlipped] = useState(new Set());
   const [matched, setMatched] = useState(new Set());
   const [disabled, setDisabled] = useState(false);

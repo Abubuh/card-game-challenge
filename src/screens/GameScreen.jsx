@@ -8,9 +8,12 @@ import { CircularTimer } from "../components/CircularTimer";
 import soundOn from "../assets/images/sound--on.svg";
 import soundOff from "../assets/images/sound--off.svg";
 import { MODAL_DURATION } from "../constants/gameConstants";
+import { CARDS } from "../constants/cards";
 
 const GameScreen = () => {
   const [modal, setModal] = useState(null);
+  const isTestMode =
+  import.meta.env.VITE_E2E === "true";
   const {
     playCorrect,
     playIncorrect,
@@ -20,7 +23,6 @@ const GameScreen = () => {
     handleVolume,
     playTicking,
   } = useGameSounds();
-
   const { cards, flipped, matched, handleClick, disabled } = useMemoryGame({
     onMatch: () => {
       playCorrect();
@@ -32,6 +34,7 @@ const GameScreen = () => {
       setModal("nomatch");
       setTimeout(() => setModal(null), MODAL_DURATION);
     },
+    initialCards: isTestMode ? CARDS : undefined,
   });
 
   const { timer } = useGameTimer({ matched, cards });
@@ -42,6 +45,7 @@ const GameScreen = () => {
     }
   }, [timer]);
 
+  
   return (
     <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
       <div className="absolute top-4 right-4 flex items-center gap-2">
