@@ -5,6 +5,7 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
   reporter: "html",
+  workers: 1,
   use: {
     baseURL: "http://localhost:5173",
     trace: "on-first-retry",
@@ -19,8 +20,8 @@ export default defineConfig({
       use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      name: "edge",
+      use: { ...devices["Desktop Edge"] },
     },
   ],
   webServer: {
