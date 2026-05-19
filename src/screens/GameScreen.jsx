@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
 import useMemoryGame from "../hooks/useMemoryGame";
@@ -10,10 +10,12 @@ import soundOff from "../assets/images/sound--off.svg";
 import { MODAL_DURATION } from "../constants/gameConstants";
 import { CARDS } from "../constants/cards";
 
+const isTestMode =
+import.meta.env.VITE_E2E === "true";
+
 const GameScreen = () => {
   const [modal, setModal] = useState(null);
-  const isTestMode =
-  import.meta.env.VITE_E2E === "true";
+  const modalTimeoutRef = useRef(null);
   const {
     playCorrect,
     playIncorrect,
@@ -27,17 +29,21 @@ const GameScreen = () => {
     onMatch: () => {
       playCorrect();
       setModal("match");
-      setTimeout(() => setModal(null), MODAL_DURATION);
+      modalTimeoutRef.current = setTimeout(() => setModal(null), MODAL_DURATION);
     },
     onNoMatch: () => {
       playIncorrect();
       setModal("nomatch");
-      setTimeout(() => setModal(null), MODAL_DURATION);
+      modalTimeoutRef.current = setTimeout(() => setModal(null), MODAL_DURATION);
     },
     initialCards: isTestMode ? CARDS : undefined,
   });
 
   const { timer } = useGameTimer({ matched, cards });
+
+  useEffect(() => {
+    return () => clearTimeout(modalTimeoutRef.current);
+  }, []);
 
   useEffect(() => {
     if (timer <= 10 && timer > 0) {
