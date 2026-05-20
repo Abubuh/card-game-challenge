@@ -18,13 +18,13 @@ const ResultsScreen = () => {
   const handleSubmit = async () => {
     if (!name.trim()) return;
     localStorage.setItem("playerName", name);
-    const { error } = await submitScore(name, state?.time, state?.gameId);
+    const { error } = await submitScore(name, state?.gameId);
     if (!error) {
       sessionStorage.setItem("submittedGameId", state?.gameId);
       setSubmitted(true);
     } else {
       setSubmitError(
-        error.code === "23505"
+        error.message === "already_submitted"
           ? "Score already submitted for this game."
           : "Something went wrong. Please try again.",
       );
