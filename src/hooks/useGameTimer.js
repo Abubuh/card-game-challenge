@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GAME_DURATION } from "../constants/gameConstants";
 
-const useGameTimer = ({ matched, cards, gameId }) => {
+const useGameTimer = ({ matched, cards, gameId, onWin }) => {
   const [timer, setTimer] = useState(GAME_DURATION);
   const timerRef = useRef(null);
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ const useGameTimer = ({ matched, cards, gameId }) => {
   useEffect(() => {
     if (matched.size === cards.length) {
       clearInterval(timerRef.current);
+      onWin?.(timer);
       navigate("/results", {
         state: { win: true, time: timer, gameId },
         replace: true,
