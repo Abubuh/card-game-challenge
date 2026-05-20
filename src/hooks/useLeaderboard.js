@@ -1,32 +1,33 @@
-import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+const fetchScores = async () => {
+  const { data, error } = await supabase
+    .from("leaderboard")
+    .select("*")
+    .order("time_remaining", { ascending: false })
+    .limit(10);
+  if (error) throw new Error(error.message);
+  return data;
+};
 
 const useLeaderboard = () => {
-  const [scores, setScores] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchScores = async () => {
-    const { data, error } = await supabase
+  const queryClient = useQueryClient();
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: fetchScores,
+  });
+  const submitScore = async (name, time_remaining, gameId) => {
+    const { error } = await supabase
       .from("leaderboard")
-      .select("*")
-      .order("time", { ascending: false })
-      .limit(10);
-
-    if (!error) setScores(data);
-    setLoading(false);
+      .insert({ name, time_remaining, game_id: gameId });
+    if (!error) {
+      queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
+    }
+    return { error };
   };
 
-  const submitScore = async (name, time) => {
-    const { error } = await supabase.from("leaderboard").insert({ name, time });
-
-    if (!error) fetchScores();
-  };
-
-  useEffect(() => {
-    fetchScores();
-  }, []);
-
-  return { scores, loading, submitScore };
+  return { data, isLoading, error, submitScore };
 };
 
 export default useLeaderboard;
