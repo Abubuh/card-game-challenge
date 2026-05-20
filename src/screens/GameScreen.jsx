@@ -10,12 +10,12 @@ import soundOff from "../assets/images/sound--off.svg";
 import { MODAL_DURATION } from "../constants/gameConstants";
 import { CARDS } from "../constants/cards";
 
-const isTestMode =
-import.meta.env.VITE_E2E === "true";
+const isTestMode = import.meta.env.VITE_E2E === "true";
 
 const GameScreen = () => {
   const [modal, setModal] = useState(null);
   const modalTimeoutRef = useRef(null);
+  const [gameId] = useState(() => crypto.randomUUID());
   const {
     playCorrect,
     playIncorrect,
@@ -29,17 +29,23 @@ const GameScreen = () => {
     onMatch: () => {
       playCorrect();
       setModal("match");
-      modalTimeoutRef.current = setTimeout(() => setModal(null), MODAL_DURATION);
+      modalTimeoutRef.current = setTimeout(
+        () => setModal(null),
+        MODAL_DURATION,
+      );
     },
     onNoMatch: () => {
       playIncorrect();
       setModal("nomatch");
-      modalTimeoutRef.current = setTimeout(() => setModal(null), MODAL_DURATION);
+      modalTimeoutRef.current = setTimeout(
+        () => setModal(null),
+        MODAL_DURATION,
+      );
     },
     initialCards: isTestMode ? CARDS : undefined,
   });
 
-  const { timer } = useGameTimer({ matched, cards });
+  const { timer } = useGameTimer({ matched, cards, gameId });
 
   useEffect(() => {
     return () => clearTimeout(modalTimeoutRef.current);
@@ -51,7 +57,6 @@ const GameScreen = () => {
     }
   }, [timer]);
 
-  
   return (
     <div className="h-dvh w-dvw flex flex-col items-center justify-center gap-2 lg:gap-8">
       <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -102,7 +107,9 @@ const GameScreen = () => {
           {cards.map((card) => (
             <Card
               key={card.id}
-              isDisabled={disabled && !flipped.has(card.id) && !matched.has(card.id)}
+              isDisabled={
+                disabled && !flipped.has(card.id) && !matched.has(card.id)
+              }
               type={card.type}
               image={card.image}
               isFlipped={flipped.has(card.id) || matched.has(card.id)}
