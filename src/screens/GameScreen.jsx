@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import Modal from "../components/Modal";
 import useMemoryGame from "../hooks/useMemoryGame";
 import useGameTimer from "../hooks/useGameTimer";
+import useInsertScore from "../hooks/useInsertScore";
 import useGameSounds from "../hooks/useGameSounds";
 import { CircularTimer } from "../components/CircularTimer";
 import soundOn from "../assets/images/sound--on.svg";
@@ -16,6 +17,7 @@ const GameScreen = () => {
   const [modal, setModal] = useState(null);
   const modalTimeoutRef = useRef(null);
   const [gameId] = useState(() => crypto.randomUUID());
+  const { insertInitialScore } = useInsertScore();
   const {
     playCorrect,
     playIncorrect,
@@ -45,7 +47,12 @@ const GameScreen = () => {
     initialCards: isTestMode ? CARDS : undefined,
   });
 
-  const { timer } = useGameTimer({ matched, cards, gameId });
+  const { timer } = useGameTimer({
+    matched,
+    cards,
+    gameId,
+    onWin: (time) => insertInitialScore(gameId, time),
+  });
 
   useEffect(() => {
     return () => clearTimeout(modalTimeoutRef.current);
